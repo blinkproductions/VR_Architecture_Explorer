@@ -28,14 +28,52 @@ public:
 
 private:
 
+	bool FindTeleportDestination(FVector &OutLocation);
+	void UpdateDestinationMarker();
+	void UpdateBlinkers();
+	FVector2D GetBlinkerCenter();
+
 	void MoveForward(float throttle);
 	void MoveRight(float throttle);
+	void RotateRight(float throttle);
+
+	void BeginTeleport();
+	void FinishTeleport();
+
+	void StartFade(float FromAlpha, float ToAlpha);
+
 
 private:
 
 	UPROPERTY(VisibleAnywhere)
 	class UCameraComponent* Camera;
 
+	UPROPERTY(VisibleAnywhere)
 	class USceneComponent* VRRoot;
 
+	UPROPERTY(VisibleAnywhere)
+	class UStaticMeshComponent* DestinationMarker;
+
+	UPROPERTY(VisibleAnywhere)
+	class UPostProcessComponent* PostProcessComponent;
+
+	UPROPERTY(VisibleAnywhere)
+	class UMaterialInstanceDynamic* BlinkerMaterialInstance;
+
+private:
+
+	UPROPERTY(EditAnywhere)
+	float MaxTeleportDistance = 1000;
+
+	UPROPERTY(EditAnywhere)
+	float TeleportFadeTime = 1;
+
+	UPROPERTY(EditAnywhere)
+	FVector TeleportProjectionExtent = FVector(100, 100, 100);
+
+	UPROPERTY(EditAnywhere)
+	class UMaterialInterface * BlinkerMaterialBase;
+
+	UPROPERTY(EditAnywhere)
+	class UCurveFloat* RadiusVsVelocity;
 };
